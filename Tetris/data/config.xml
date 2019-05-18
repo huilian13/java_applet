@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<game>
+  <!-- 游戏界面配置 -->
+  <frame title="俄罗斯方块1.0" width="1162" height="686" borderSize="8" padding="16" rectSize="5" loseIndex="8">
+   <button width="105" height="40">
+         <start x="836" y="72"/>
+         <setting x="973" y="72"/>
+     </button>
+     <layer className="kevin.ui.BackgroundLayer" x="0" y="0" width="0" height="0"/>
+     <layer className="kevin.ui.DataBaseLayer" x="40"  y="32" width="334" height="279"/>
+     <layer className="kevin.ui.DiskLayer" x="40"  y="343" width="334" height="279"/>
+     <layer className="kevin.ui.GameLayer" x="413"  y="31" width="335" height="591"/>
+     <layer className="kevin.ui.ButtonLayer" x="788"  y="32" width="334" height="125"/>
+     <layer className="kevin.ui.RemindLayer" x="788"  y="186" width="165" height="125"/>
+     <layer className="kevin.ui.LevelLayer" x="957"  y="186" width="165" height="125"/>
+     <layer className="kevin.ui.ScoreLayer" x="788"  y="343" width="334" height="160"/>
+     <layer className="kevin.ui.AboutLayer" x="788"  y="532" width="334" height="90"/>
+  </frame>
+  <!-- 游戏数据配置 -->
+  <data maxRow="5">
+      <dataBase className="kevin.dao.DataBase">
+         <param key="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+         <param key="url" value="jdbc:sqlserver://localhost:1433;DatabaseName=game"/>
+         <param key="user" value="gm"/>
+         <param key="password" value="root"/>
+      </dataBase>
+      <dataDisk className="kevin.dao.DataDisk">
+         <param key="path" value="data/dataRecode.dat"/>
+      </dataDisk>
+  </data>
+  <!-- 系统配置 -->
+  <system maxX="10" maxY="18" levelUp="20">
+       <!-- 方块信息 -->
+      <rect round="true">
+         <point x="4" y="1"/><point x="3" y="0"/><point x="4" y="0"/><point x="5" y="1"/>
+      </rect>
+      <rect round="true">
+         <point x="4" y="1"/><point x="3" y="1"/><point x="5" y="0"/><point x="5" y="1"/>
+      </rect>
+      <rect round="false">
+         <point x="4" y="1"/><point x="4" y="0"/><point x="5" y="0"/><point x="5" y="1"/>
+      </rect>
+      <rect round="true">
+         <point x="4" y="1"/><point x="3" y="1"/><point x="4" y="0"/><point x="5" y="0"/>
+      </rect>
+      <rect round="true">
+         <point x="4" y="0"/><point x="3" y="0"/><point x="5" y="0"/><point x="6" y="0"/>
+      </rect>
+      <rect round="true">
+         <point x="4" y="1"/><point x="3" y="1"/><point x="3" y="0"/><point x="5" y="1"/>
+      </rect>
+      <rect round="true">
+         <point x="4" y="1"/><point x="3" y="1"/><point x="4" y="0"/><point x="5" y="1"/>
+      </rect>
+      <!--加分表  -->
+      <plusScore line="1" score="5"/>
+      <plusScore line="2" score="15"/>
+      <plusScore line="3" score="30"/>
+      <plusScore line="4" score="50"/>
+  </system>
+</game>
