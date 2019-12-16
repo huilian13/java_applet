@@ -5,7 +5,8 @@ import top.yifan.dto.GameDTO;
 import top.yifan.entity.Bullet;
 import top.yifan.entity.PlaneLife;
 import top.yifan.factory.GameImageFactory;
-import top.yifan.thread.MusicThread;
+import top.yifan.thread.actuator.ThreadActuator;
+import top.yifan.thread.runnable.MusicRunnable;
 import top.yifan.constant.GameImagePathConstant;
 import top.yifan.util.CrashUtil;
 
@@ -21,11 +22,6 @@ public class HeroPlane extends Plane {
      * 数据源
      */
     private GameDTO gameDto;
-
-    /**
-     * 音效线程
-     */
-    private MusicThread musicThread;
 
     /**
      * 边界值大小
@@ -121,8 +117,7 @@ public class HeroPlane extends Plane {
             // 飞机消失
             enemyPlane.setLive(false);
             // 产生击中音效
-            this.musicThread = new MusicThread(GameConstant.MUSIC_PATH_MAP.get("bullet"));
-            this.musicThread.start();
+            ThreadActuator.execute(new MusicRunnable(GameConstant.MUSIC_PATH_MAP.get("enemy_down")));
             return true;
         }
         return false;
@@ -137,8 +132,7 @@ public class HeroPlane extends Plane {
         // 检测是否碰撞
         if (CrashUtil.crash(planeLife, this.x, this.y, PLANE_WIDTH, PLANE_HEIGHT)) {
             // 产生音效
-            this.musicThread = new MusicThread(GameConstant.MUSIC_PATH_MAP.get("lifeUp"));
-            this.musicThread.start();
+            ThreadActuator.execute(new MusicRunnable(GameConstant.MUSIC_PATH_MAP.get("lifeUp")));
             return true;
         }
         return false;

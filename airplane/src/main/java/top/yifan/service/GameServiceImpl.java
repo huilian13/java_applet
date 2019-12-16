@@ -1,9 +1,11 @@
 package top.yifan.service;
 
+import top.yifan.constant.GameConstant;
+import top.yifan.constant.GameImagePathConstant;
 import top.yifan.dto.GameDTO;
 import top.yifan.factory.GameImageFactory;
-import top.yifan.thread.MusicThread;
-import top.yifan.constant.GameImagePathConstant;
+import top.yifan.thread.actuator.ThreadActuator;
+import top.yifan.thread.runnable.MusicRunnable;
 
 import java.awt.*;
 
@@ -21,7 +23,7 @@ public class GameServiceImpl implements GameService {
     /**
      * 音效线程
      */
-    private MusicThread musicThread;
+    private MusicRunnable musicRunnable;
 
     /**
      * 物体速度
@@ -99,8 +101,7 @@ public class GameServiceImpl implements GameService {
         // 开火射击
         this.gameDto.getHeroPlane().fire();
         // 启动音效
-        this.musicThread = new MusicThread("music/bullet.mp3");
-        this.musicThread.start();
+        ThreadActuator.execute(new MusicRunnable(GameConstant.MUSIC_PATH_MAP.get("bullet")));
     }
 
     @Override

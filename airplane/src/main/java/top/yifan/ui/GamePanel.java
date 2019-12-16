@@ -19,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -443,7 +444,7 @@ public class GamePanel extends JPanel {
         // 创建 Bomb 对象集合
         List<Bomb> bombList = this.gameDto.getBombList();
         // 获取爆炸图片
-        Image[] bombImages = GameImagePathConstant.BOMBS;
+        List<Image> bombImages = this.listBombImage();
         // 声明 Bomb 对象
         Bomb bomb = null;
         // 爆炸范围
@@ -452,16 +453,17 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < bombList.size(); i++) {
             bomb = bombList.get(i);
             if (bomb == null) {
+                bombList.remove(null);
                 continue;
             }
             // 获取爆炸范围
             range = bomb.getBombRange();
             if (bomb.getLifeValue() > 6) {
-                g.drawImage(bombImages[0], bomb.getX(), bomb.getY(), range, range, null);
+                g.drawImage(bombImages.get(0), bomb.getX(), bomb.getY(), range, range, null);
             } else if (bomb.getLifeValue() > 3) {
-                g.drawImage(bombImages[1], bomb.getX(), bomb.getY(), range, range, null);
+                g.drawImage(bombImages.get(1), bomb.getX(), bomb.getY(), range, range, null);
             } else {
-                g.drawImage(bombImages[2], bomb.getX(), bomb.getY(), range, range, null);
+                g.drawImage(bombImages.get(2), bomb.getX(), bomb.getY(), range, range, null);
             }
             // 减少爆炸生命值
             bomb.lifeDown();
@@ -470,6 +472,15 @@ public class GamePanel extends JPanel {
                 bombList.remove(bomb);
             }
         }
+    }
+
+    private List<Image> listBombImage() {
+        String[] bombPaths = GameImagePathConstant.BOMBS;
+        List<Image> bombImages = new ArrayList<>(bombPaths.length);
+        for (String path : bombPaths) {
+          bombImages.add(GameImageFactory.createImage(path));
+        }
+        return bombImages;
     }
 
     /**

@@ -79,9 +79,9 @@ public class PlaneLife extends AbstractFlyingObject implements Runnable {
     public void run() {
         try {
             for (; ; ) {
-                //间隔50ms
+                // 间隔 50ms
                 Thread.sleep(GameConstant.SLEEP);
-                //物体移动
+                // 物体随机移动
                 if (!this.gameDto.isPause()) {
                     switch (this.direct) {
                         case 0:

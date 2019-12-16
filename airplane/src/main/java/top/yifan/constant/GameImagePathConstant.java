@@ -1,8 +1,5 @@
 package top.yifan.constant;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * 游戏图片路径
  *
@@ -61,15 +58,15 @@ public final class GameImagePathConstant {
     public static final String LIFE = "graphics/plane/life.png";
 
     /**
-     * 爆炸效果图 TODO 修改
+     * 爆炸效果图
      */
-    public static Image[] BOMBS = null;
+    public static String[] BOMBS = null;
 
     static {
         // 静态初始化爆炸效果图数组
-        BOMBS = new Image[3];
-        for (int i = 0; i < BOMBS.length; i++) {
-            BOMBS[i] = new ImageIcon("graphics/bomb/bomb_" + i + ".gif").getImage();
+        BOMBS = new String[3];
+        for (int i = 0, len = BOMBS.length; i < len; i++) {
+            BOMBS[i] = String.format("graphics/bomb/bomb_%s.gif", i);
         }
     }
 

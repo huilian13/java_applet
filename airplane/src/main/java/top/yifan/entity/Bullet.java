@@ -3,7 +3,9 @@ package top.yifan.entity;
 import top.yifan.constant.GameConstant;
 import top.yifan.dto.GameDTO;
 import top.yifan.entity.plane.Plane;
-import top.yifan.thread.MusicThread;
+import top.yifan.thread.actuator.ThreadActuator;
+import top.yifan.thread.runnable.BulletMoveRunnable;
+import top.yifan.thread.runnable.MusicRunnable;
 import top.yifan.util.CrashUtil;
 
 /**
@@ -11,8 +13,7 @@ import top.yifan.util.CrashUtil;
  *
  * @author star
  */
-public class Bullet extends AbstractFlyingObject implements Runnable {
-
+public class Bullet extends AbstractFlyingObject {
     /**
      * 游戏数据源
      */
@@ -22,11 +23,6 @@ public class Bullet extends AbstractFlyingObject implements Runnable {
      * 子弹是否存在
      */
     private boolean isLive;
-
-    /**
-     * 音乐线程
-     */
-    private MusicThread musicThread;
 
     /**
      * 子弹的速度
@@ -39,9 +35,8 @@ public class Bullet extends AbstractFlyingObject implements Runnable {
         this.gameDto = gameDto;
         // 默认存在
         this.isLive = true;
-        // 启动子弹线程
-        Thread bulletThread = new Thread(this);
-        bulletThread.start();
+        // 执行子弹线程
+        ThreadActuator.execute(new BulletMoveRunnable(this.gameDto, this, SPEED));
     }
 
     /**
@@ -73,30 +68,13 @@ public class Bullet extends AbstractFlyingObject implements Runnable {
             this.isLive = false;
             // 生命值减 1
             plane.lifeDown();
-            // 产生击中音效
-            musicThread = new MusicThread("music/enemy_down.mp3");
-            musicThread.start();
+            // 执行线程，产生击中音效
+            ThreadActuator.execute(new MusicRunnable(GameConstant.MUSIC_PATH_MAP.get("bullet")));
             return true;
         }
         return false;
     }
 
-    @Override
-    public void run() {
-        try {
-            for (; ; ) {
-                // 间隔50ms
-                Thread.sleep(GameConstant.SLEEP);
-                // 当子弹碰到边界就消失
-                if (!this.gameDto.isPause() && !this.move(0, -SPEED)) {
-                    this.isLive = false;
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public int getX() {
         return x;

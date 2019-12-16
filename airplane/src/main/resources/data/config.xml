@@ -4,8 +4,9 @@
     <frame width="400" height="689" btn_startY="350" btn_backY="300"/>
     <!--系统配置-->
     <system sleepTime="50" spark="15" speed="6" bomb_life="9" normalNum="10">
-        <music key="bullet" value="music/enemy_down.mp3"/>
+        <music key="enemy_down" value="music/enemy_down.mp3"/>
         <music key="lifeUp" value="music/lifeUp.mp3"/>
         <music key="fight" value="music/fight.mp3"/>
+        <music key="bullet" value="music/bullet.mp3"/>
     </system>
 </game>

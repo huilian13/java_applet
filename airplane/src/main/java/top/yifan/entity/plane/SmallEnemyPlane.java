@@ -5,20 +5,17 @@ import top.yifan.constant.GameConstant;
 import top.yifan.dto.GameDTO;
 import top.yifan.constant.GameImagePathConstant;
 import top.yifan.factory.GameImageFactory;
+import top.yifan.thread.actuator.ThreadActuator;
+import top.yifan.thread.runnable.PlaneMoveRunnable;
 
 /**
  * 小敌机
  */
-public class SmallEnemyPlane extends EnemyPlane implements Runnable {
+public class SmallEnemyPlane extends EnemyPlane {
     /**
      * 游戏数据源
      */
     private GameDTO gameDto;
-
-    /**
-     * 飞机线程
-     */
-    private Thread planeThread;
 
     /**
      * 飞机的宽度和高度
@@ -26,6 +23,11 @@ public class SmallEnemyPlane extends EnemyPlane implements Runnable {
     private static final int PLANE_HEIGHT = GameImageFactory.createImage(GameImagePathConstant.ENEMY_SMALL).getHeight(null);
 
     private static final int PLANE_WIDTH = GameImageFactory.createImage(GameImagePathConstant.ENEMY_SMALL).getWidth(null);
+
+    /**
+     * 飞行速度
+     */
+    private static final int SPEED = 3;
 
     public SmallEnemyPlane(GameDTO gameDto) {
         // 随机创建飞机对象
@@ -35,8 +37,7 @@ public class SmallEnemyPlane extends EnemyPlane implements Runnable {
         // 初始化所有参数
         this.initParam();
         // 当对象创建时启动线程
-        this.planeThread = new Thread(this);
-        this.planeThread.start();
+        ThreadActuator.execute(new PlaneMoveRunnable(this.gameDto, this, SPEED));
 
     }
 
@@ -57,23 +58,5 @@ public class SmallEnemyPlane extends EnemyPlane implements Runnable {
         // 初始化高度
         this.height = PLANE_HEIGHT;
 
-    }
-
-    @Override
-    public void run() {
-        try {
-            for (; ; ) {
-                // 间隔50ms
-                Thread.sleep(GameConstant.SLEEP);
-                // 物体移动
-                if (!this.gameDto.isPause() && !this.move(0, 3)) {
-                    // 当移出窗口时，物体消失
-                    this.isLive = false;
-                    break;
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

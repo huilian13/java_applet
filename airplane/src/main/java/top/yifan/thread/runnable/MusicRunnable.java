@@ -1,4 +1,4 @@
-package top.yifan.thread;
+package top.yifan.thread.runnable;
 
 
 import javazoom.jl.decoder.JavaLayerException;
@@ -7,17 +7,17 @@ import top.yifan.util.MusicUtil;
 import java.io.IOException;
 
 /**
- * 音效线程
+ * 音效运行器
  *
  * @author star
  */
-public class MusicThread extends Thread {
+public class MusicRunnable implements Runnable {
     /**
      * 文件路径
      */
     private String path;
 
-    public MusicThread(String path) {
+    public MusicRunnable(String path) {
         this.path = path;
     }
 
