@@ -21,11 +21,6 @@ public class GameServiceImpl implements GameService {
     private GameDTO gameDto;
 
     /**
-     * 音效线程
-     */
-    private MusicRunnable musicRunnable;
-
-    /**
      * 物体速度
      */
     private final int speed;

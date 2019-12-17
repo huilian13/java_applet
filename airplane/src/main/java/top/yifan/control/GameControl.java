@@ -77,6 +77,7 @@ public class GameControl {
             keyMap.put(68, "keyRight");
             // "P" 键
             keyMap.put(80, "keyPause");
+
             return keyMap;
         }
 
@@ -125,7 +126,7 @@ public class GameControl {
         // 当游戏开始时，按键可以移动
         try {
             if (this.gameDto.isStart()) {
-                // 执行动作
+                // 执行动作，利用反射机制
                 if (this.actionList.containsKey(keyCode)) {
                     this.actionList.get(keyCode).invoke(this.gameService);
                 }

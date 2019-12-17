@@ -478,7 +478,7 @@ public class GamePanel extends JPanel {
         String[] bombPaths = GameImagePathConstant.BOMBS;
         List<Image> bombImages = new ArrayList<>(bombPaths.length);
         for (String path : bombPaths) {
-          bombImages.add(GameImageFactory.createImage(path));
+            bombImages.add(GameImageFactory.createImage(path));
         }
         return bombImages;
     }

@@ -66,7 +66,7 @@ public final class GameImagePathConstant {
         // 静态初始化爆炸效果图数组
         BOMBS = new String[3];
         for (int i = 0, len = BOMBS.length; i < len; i++) {
-            BOMBS[i] = String.format("graphics/bomb/bomb_%s.gif", i);
+            BOMBS[i] = String.format("graphics/bomb/bomb_%s.gif", i + 1);
         }
     }
 
