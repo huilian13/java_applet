@@ -11,7 +11,7 @@ import java.awt.*;
 public final class FrameUtil {
 
     private FrameUtil() {
-
+        throw new IllegalStateException("Cannot create instance of static util class");
     }
 
     /**

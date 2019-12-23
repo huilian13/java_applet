@@ -10,7 +10,7 @@ import top.yifan.config.GameConfig;
 public final class CheckMapUtil {
 
     private CheckMapUtil() {
-
+        throw new IllegalStateException("Cannot create instance of static util class");
     }
 
     /**
