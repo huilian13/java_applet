@@ -47,7 +47,6 @@ public class GameRect {
         // 初始化方块
         this.initRect(rectCode);
 
-
     }
 
     /**
