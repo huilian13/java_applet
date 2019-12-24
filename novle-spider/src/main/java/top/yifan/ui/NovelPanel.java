@@ -16,6 +16,7 @@ import java.net.URL;
  * @author star
  **/
 public class NovelPanel extends JPanel {
+
     /**
      * 表格组件
      */
@@ -76,7 +77,7 @@ public class NovelPanel extends JPanel {
      * @return
      */
     private MouseAdapter createMouseAdapter() {
-        MouseAdapter mouseAdapter = new MouseAdapter() {
+        return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
@@ -107,7 +108,7 @@ public class NovelPanel extends JPanel {
                                 int rightRange = i + 20;
                                 downloadThread = new Thread(() -> {
                                     // 下载到桌面
-                                    downloadToDesktop(novelName, leftRange, rightRange >= chapterNumber ? chapterNumber : rightRange);
+                                    downloadToDesktop(novelName, leftRange, Math.min(rightRange, chapterNumber));
 
                                 });
                                 downloadThread.start();
@@ -122,7 +123,6 @@ public class NovelPanel extends JPanel {
                 }
             }
         };
-        return mouseAdapter;
     }
 
     /**

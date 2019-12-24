@@ -8,7 +8,7 @@ import java.net.URL;
  *
  * @author star
  */
-public class FileLoadUtil {
+public final class FileLoadUtil {
 
     private FileLoadUtil() {
 

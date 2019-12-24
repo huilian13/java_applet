@@ -36,7 +36,7 @@ public class CrawlerDaoImpl implements CrawlerDao {
             }
             // 建立请求
             HttpUriRequest request = requestBuilder.build();
-            // 执行请求,获取响应对象
+            // 执行请求，获取响应对象
             response = HttpClientFactory.getHttpClient().execute(request);
             // 获取响应实体
             String htmlContent = EntityUtils.toString(response.getEntity(), "gbk");

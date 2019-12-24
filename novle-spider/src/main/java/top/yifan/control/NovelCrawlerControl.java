@@ -21,7 +21,7 @@ import java.util.*;
 /**
  * 小说爬取控制器
  *
- * @author kevin
+ * @author star
  **/
 public class NovelCrawlerControl {
 
@@ -66,7 +66,7 @@ public class NovelCrawlerControl {
         // 创建小说爬取业务逻辑对象
         CrawlerService<List<Novel>> novelService = new NovelCrawlerServiceImpl();
         // 创建请求参数
-        HashMap<String, String> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("type", "articlename");
         params.put("s", novelName);
         // 创建 url 对象（根据小说名查找小说）
@@ -88,6 +88,8 @@ public class NovelCrawlerControl {
             novel.setChapters(chapters);
             novel.setStatus(status);
         }
+        // 清空以前的小说数据
+        this.novelSpiderDto.setNovelList(null);
         // 将小说集合设置到数据传输对象
         this.novelSpiderDto.setNovelList(novelList);
     }
@@ -106,7 +108,7 @@ public class NovelCrawlerControl {
             for (Novel novel : novelList) {
                 dataVector = new Vector<>();
                 // 添加序号
-                dataVector.add(num + "");
+                dataVector.add(String.valueOf(num));
                 // 添加小说名
                 dataVector.add(novel.getNovelName());
                 // 添加小说作者
@@ -132,9 +134,9 @@ public class NovelCrawlerControl {
      * @return
      */
     public String getContent(String chapterUrl) {
-        //获取章节内容业务逻辑对象
+        // 获取章节内容业务逻辑对象
         ContentCrawlerServiceImpl contentCrawlerService = new ContentCrawlerServiceImpl();
-        //获取章节内容
+        // 获取章节内容
         String content = contentCrawlerService.crawl(new UrlBean(chapterUrl));
 
         return content;
@@ -143,63 +145,66 @@ public class NovelCrawlerControl {
     /**
      * 根据小说名获取章节数目
      *
-     * @param novelName
-     * @return
+     * @param novelName 小说名称
+     * @return 小说章节数量
      */
     public int getChapterLength(String novelName) {
         Novel novel = this.getNovelByName(novelName);
         int length = novel.getChapters().size() - 1;
+
         return length;
     }
 
     /**
      * 根据小说名获取小说对象
      *
-     * @return
+     * @return 小说对象
      */
     public Novel getNovelByName(String novelName) {
-        //获取小说集合
+        // 获取小说集合
         List<Novel> novelList = this.novelSpiderDto.getNovelList();
-        if (novelList != null) {
-            for (Novel novel : novelList) {
-                if (novel.getNovelName().equals(novelName)) {
-                    return novel;
-                }
-            }
+        if (novelList == null) {
+            return null;
         }
-        return null;
+        Optional<Novel> first = novelList.stream()
+                .filter(e -> Objects.equals(e.getNovelName(), novelName))
+                .findFirst();
+        return first.orElse(null);
+
     }
 
     /**
      * 下载章节内容
+     *
+     * @param novelName 小说名称
      */
     public void downloadChapterContent(String novelName, int leftRange, int rightRange) {
-        //获取桌面路径
+        // 获取桌面路径
         String path = System.getProperty("user.home") + "\\Desktop";
         File desktopPath = new File(path);
-        //获取小说地址
+        // 获取小说地址
         Novel novel = this.getNovelByName(novelName);
-        //创建小说文件夹
+        // 创建小说文件夹
         File storeDirectory = new File(desktopPath, novel.getNovelName());
         if (!storeDirectory.exists()) {
             storeDirectory.mkdirs();
         }
-        //获取小说的所有章节
+        // 获取小说的所有章节
         List<Chapter> chapters = novel.getChapters();
-        //章节对象
+        // 章节对象
         Chapter chapter = null;
-        //小说章节文件
+        // 小说章节文件
         File chapterFile = null;
         if (chapters != null && !chapters.isEmpty()) {
-            //分段下载文件
+            // 分段下载文件
             for (int i = leftRange; i <= rightRange; i++) {
-                //获取章节对象
+                // 获取章节对象
                 chapter = chapters.get(i);
-                //获取章节名
+                // 获取章节名
                 String childFile = chapter.getTitle().replaceAll("[\\:/?*<>|]+", "");
-                //创建章节文件
+                // 创建章节文件
                 chapterFile = new File(storeDirectory, childFile + ".txt");
-                //获取内容
+                // 获取内容
                 String content = getContent(novel.getNovelUrl() + chapter.getChapterUrl());
                 System.out.println("正在下载：" + chapter.getTitle() + "------->" + novel.getNovelUrl() + chapter.getChapterUrl());
                 synchronized (NovelCrawlerControl.class) {
@@ -207,13 +212,13 @@ public class NovelCrawlerControl {
                     double progressValue = length * 1.0 * 100 / chapters.size();
                     ProgressFrame.getInstance().setProgress(progressValue, length * 100 / chapters.size());
                 }
-                //写出文件
+                // 写出文件
                 IOUtil.writeToFile(chapterFile, content);
             }
 
         }
         if (length == novel.getChapters().size()) {
-            ProgressFrame.stopProgressBar();
+            ProgressFrame.getInstance().stopProgressBar();
             JOptionPane.showMessageDialog(null, "下载完毕!", "提示", JOptionPane.INFORMATION_MESSAGE);
         }
     }

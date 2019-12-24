@@ -69,7 +69,7 @@ public class NovelSearchPanel extends JPanel {
      */
     private MouseAdapter createMouseAdapter() {
         // 创建鼠标适配器
-        MouseAdapter mouseAdapter = new MouseAdapter() {
+        return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
@@ -82,6 +82,5 @@ public class NovelSearchPanel extends JPanel {
                 }
             }
         };
-        return mouseAdapter;
     }
 }

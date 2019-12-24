@@ -12,19 +12,17 @@ import java.text.DecimalFormat;
 
 public class ProgressFrame {
 
-    private static final Dimension DEMENSION = Toolkit.getDefaultToolkit().getScreenSize();
-    public static final int WIDTH = DEMENSION.width;
-    public static final int HEIGHT = DEMENSION.height;
-    private static Rectangle progressRec = new Rectangle(WIDTH / 5 * 2, HEIGHT / 2, WIDTH / 5, 20);
-
     private static ProgressFrame progressFrame = null;
-    private static JFrame frame;
-    private static Container contentPane;
-    private static JProgressBar progressBar;
+
+    private JFrame frame;
+
+    private Container contentPane;
+
+    private JProgressBar progressBar;
 
     private ProgressFrame() {
         frame = new JFrame();
-        frame.setBounds(progressRec);
+        frame.setBounds(this.createRectangle());
         frame.setUndecorated(true);
         frame.setAlwaysOnTop(false);
         frame.setResizable(false);
@@ -41,18 +39,38 @@ public class ProgressFrame {
         frame.setVisible(true);
     }
 
+    private Rectangle createRectangle() {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        // 获取屏幕高度和宽度
+        int width = dimension.width;
+        int height = dimension.height;
+        Rectangle progressRec = new Rectangle(width / 5 * 2, height / 2, width / 5, 20);
+
+        return progressRec;
+    }
+
+    /**
+     * 单例模式（双重检查）
+     *
+     * @return
+     */
     public static ProgressFrame getInstance() {
         if (progressFrame == null) {
-            progressFrame = new ProgressFrame();
+            synchronized (ProgressFrame.class) {
+                if (progressFrame == null) {
+                    progressFrame = new ProgressFrame();
+                }
+            }
+
         }
         return progressFrame;
     }
 
-    public static void stopProgressBar() {
+    public void stopProgressBar() {
         frame.dispose();
     }
 
-    public static void setProgress(double value, int progress) {
+    public void setProgress(double value, int progress) {
         if (value >= 1) {
             progressBar.setString(new DecimalFormat("#.000").format(value) + "%");
         } else {

@@ -12,20 +12,19 @@ import java.util.LinkedList;
 import java.util.Map;
 
 /**
- * 2018-06-14 19:12
- * html解析实现类，将解析的数据封装成Chapter对象
+ * html 解析实现类，将解析的数据封装成 Chapter 对象
  *
- * @author kevin
+ * @author star
  **/
 public class HtmlParserToChapterDaoImpl implements HtmlParserDao<Map<String, Object>> {
 
     @Override
     public Map<String, Object> parserHtmlSource(String htmlSource) {
-        // 创建章节map集合
+        // 创建章节 map 集合
         Map<String, Object> chapterMap = new HashMap<>();
-        // 将字符串解析成document对象
+        // 将字符串解析成 document 对象
         Document document = Jsoup.parse(htmlSource);
-        // 获取meta标签
+        // 获取 meta 标签
         Element metaElement = document.selectFirst("meta[property='og:novel:status']");
         chapterMap.put("status", metaElement.attr("content"));
         // 获取所有包含章节的标签元素

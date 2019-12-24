@@ -21,7 +21,7 @@ public class ChapterCrawlerServiceImpl implements CrawlerService<Map<String, Obj
     private CrawlerDao crawlerDao = null;
 
     public ChapterCrawlerServiceImpl() {
-        //初始化爬取器
+        // 初始化爬取器
         this.crawlerDao = new CrawlerDaoImpl();
     }
 
