@@ -5,6 +5,9 @@ JavaSe 相关的基础小程序，主要是对基础知识的巩固，涉及面�
 
 [tetris](https://github.com/yifanzheng/java_applet/tree/master/tetris)
 
+**视频教程**  
+链接: https://pan.baidu.com/s/1L_ht8nzL4dGOYDKIQa6Wng  密码: cbeq
+
 ### 贪吃蛇
 
 [snake](https://github.com/yifanzheng/java_applet/tree/master/snake)
